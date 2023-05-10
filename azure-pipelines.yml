@@ -1,28 +1,18 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
-trigger:
-- master
-
+variables:
+        appFilePath: $(System.DefaultWorkingDirectory)/app/build/outputs/apk/debug/app-debug.apk
+        testFilePath: $(System.DefaultWorkingDirectory)/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+        bsDevice: Samsung Galaxy S22 Ultra
+        bsOsVersion: 12.0
 pool:
-  vmImage: ubuntu-latest
-
+  vmImage: 'ubuntu-latest'
 steps:
-- task: BrowserStackConfig@0
-  inputs:
-    BrowserStackServiceEndPoint: 'bstack-conn'
-    
-- script: |
-- task: Gradle@3
-  inputs:
-    gradleWrapperFile: 'gradlew'
-    options: 'executeDebugTestsOnBrowserstack'
-    tasks: 'clean'
-    publishJUnitResults: true
-    testResultsFiles: '**/TEST-*.xml'
-    javaHomeOption: 'JDKVersion'
-    sonarQubeRunAnalysis: false
-    spotBugsAnalysis: false
-  displayName: 'Run a multi-line script'
+  - task: BrowserStackConfig@0
+    inputs:
+      BrowserStackServiceEndPoint: 'bstack-conn'
+  
+  - task: Bash@3
+    inputs:
+      targetType: 'inline'
+      script: |
+         output=$(curl -u $env:BROWSERSTACK_USERNAME:$env:BROWSERSTACK_ACCESS_KEY -X POST https://api-cloud.browserstack.com/app-automate/upload -F file=@$(appFilePath) -F "data={\"custom_id\":\"demoapp\"}")
+         outputtest=$(curl -u $env:BROWSERSTACK_USERNAME:$env:BROWSERSTACK_ACCESS_KEY -X POST https://api-cloud.browserstack.com/app-automate/espresso/v2/test-suite -F file=@$(testFilePath))
