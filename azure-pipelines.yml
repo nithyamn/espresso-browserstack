@@ -30,4 +30,4 @@ steps:
         cat apk_test_url.txt
         echo "FIN voici le contenu du cat apk_test_url.txt"
         echo "2eme script passé"
-        echo curl -u $BROWSERSTACK_USERNAME:$BROWSERSTACK_ACCESS_KEY -X POST https://api-cloud.browserstack.com/app-automate/espresso/v2/build -d "{\"app\": \"$(cat apk_url.txt)\", \"device\": \"$(bsDevice)\", \"device_os\": \"$(bsOsVersion)\", \"test_suite\": \"$(cat apk_test_url.txt)\"}" -H "Content-Type: application/json"
+        curl -u $BROWSERSTACK_USERNAME:$BROWSERSTACK_ACCESS_KEY -X POST https://api-cloud.browserstack.com/app-automate/espresso/v2/build -d "{\"app\": \"$(cat apk_url.txt)\", \"device\": \"$(bsDevice)\", \"device_os\": \"$(bsOsVersion)\", \"test_suite\": \"$(cat apk_test_url.txt)\"}" -H "Content-Type: application/json"
