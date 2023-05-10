@@ -14,6 +14,8 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
+          echo $env:BROWSERSTACK_USERNAME
+          echo $env:BROWSERSTACK_ACCESS_KEY
           output=$(curl -u $env:BROWSERSTACK_USERNAME:$env:BROWSERSTACK_ACCESS_KEY -X POST https://api-cloud.browserstack.com/app-automate/espresso/v2/app -F "file=@app-debug.apk")
           echo $output
         #  outputtest=$(curl -u $env:BROWSERSTACK_USERNAME:$env:BROWSERSTACK_ACCESS_KEY -X POST https://api-cloud.browserstack.com/app-automate/espresso/v2/test-suite -F file=@$(testFilePath))
