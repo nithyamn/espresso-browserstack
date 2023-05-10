@@ -14,9 +14,8 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
-         echo $appFilePath
-         echo $testFilePath
-         output=$(curl -u $env:BROWSERSTACK_USERNAME:$env:BROWSERSTACK_ACCESS_KEY -X POST https://api-cloud.browserstack.com/app-automate/upload -F file=@$(appFilePath) -F "data={\"custom_id\":\"demoapp\"}")
-         echo $output
-         outputtest=$(curl -u $env:BROWSERSTACK_USERNAME:$env:BROWSERSTACK_ACCESS_KEY -X POST https://api-cloud.browserstack.com/app-automate/espresso/v2/test-suite -F file=@$(testFilePath))
-         echo $outputtest
+         echo $(System.DefaultWorkingDirectory)
+        #  output=$(curl -u $env:BROWSERSTACK_USERNAME:$env:BROWSERSTACK_ACCESS_KEY -X POST https://api-cloud.browserstack.com/app-automate/upload -F file=@$(appFilePath) -F "data={\"custom_id\":\"demoapp\"}")
+        #  echo $output
+        #  outputtest=$(curl -u $env:BROWSERSTACK_USERNAME:$env:BROWSERSTACK_ACCESS_KEY -X POST https://api-cloud.browserstack.com/app-automate/espresso/v2/test-suite -F file=@$(testFilePath))
+        #  echo $outputtest
