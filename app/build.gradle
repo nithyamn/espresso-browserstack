@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'jacoco'
+apply plugin: "com.browserstack.gradle"
+
 jacoco {
     toolVersion='0.7.5.201505241946'
 }
@@ -44,4 +46,9 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.1.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     testImplementation 'junit:junit:4.12'
+}
+browserStackConfig {
+    username = System.getenv("BROWSERSTACK_USERNAME")
+    accessKey = System.getenv("BROWSERSTACK_ACCESS_KEY")
+    configFilePath = "/Users/nithyamani/Desktop/TechProjects/espresso-browserstack/app/browserstack.json"
 }
