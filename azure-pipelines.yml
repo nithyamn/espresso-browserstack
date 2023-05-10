@@ -14,9 +14,20 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
-          echo $BROWSERSTACK_USERNAME
-          echo $BROWSERSTACK_ACCESS_KEY
-          output=$(curl -u $BROWSERSTACK_USERNAME:$BROWSERSTACK_ACCESS_KEY -X POST https://api-cloud.browserstack.com/app-automate/espresso/v2/app -F "file=@app-debug.apk")
-          echo $output
-        #  outputtest=$(curl -u $env:BROWSERSTACK_USERNAME:$env:BROWSERSTACK_ACCESS_KEY -X POST https://api-cloud.browserstack.com/app-automate/espresso/v2/test-suite -F file=@$(testFilePath))
-        #  echo $outputtest
+        echo $BROWSERSTACK_USERNAME
+        echo $BROWSERSTACK_ACCESS_KEY
+        output=$(curl -u $BROWSERSTACK_USERNAME:$BROWSERSTACK_ACCESS_KEY -X POST https://api-cloud.browserstack.com/app-automate/espresso/v2/app -F "file=@app-debug.apk" -F "data={\"custom_id\":\"demoapp\"}")
+        echo "1er script - voici l'output : " $output
+        echo $output | python -c 'import sys, json; print(json.load(sys.stdin)["app_url"])' > apk_url.txt
+        echo "DEBUT voici le contenu du cat apk_url.txt"
+        cat apk_url.txt
+        echo "FIN voici le contenu du cat apk_url.txt"
+
+        outputtest=$(curl -u $BROWSERSTACK_USERNAME:$BROWSERSTACK_ACCESS_KEY -X POST https://api-cloud.browserstack.com/app-automate/espresso/v2/test-suite -F file=@app-debug-androidTest.apk)
+        echo "2eme script - voici l'output : " $outputtest
+        echo $outputtest | python -c 'import sys, json; print(json.load(sys.stdin)["test_suite_url"])' > apk_test_url.txt
+        echo "DEBUT voici le contenu du cat apk_test_url.txt"
+        cat apk_test_url.txt
+        echo "FIN voici le contenu du cat apk_test_url.txt"
+        echo "2eme script passé"
+        echo curl -u $BROWSERSTACK_USERNAME:$BROWSERSTACK_ACCESS_KEY -X POST https://api-cloud.browserstack.com/app-automate/espresso/v2/build -d "{\"app\": \"$(cat apk_url.txt)\", \"device\": \"$(bsDevice)\", \"device_os\": \"$(bsOsVersion)\", \"test_suite\": \"$(cat apk_test_url.txt)\"}" -H "Content-Type: application/json"
