@@ -15,13 +15,14 @@ steps:
     BrowserStackServiceEndPoint: 'bstack-conn'
     
 - script: |
-    - task: Gradle@3
-      inputs:
-        gradleWrapperFile: 'gradlew'
-        tasks: 'clean executeDebugTestsOnBrowserstack'
-        publishJUnitResults: true
-        testResultsFiles: '**/TEST-*.xml'
-        javaHomeOption: 'JDKVersion'
-        sonarQubeRunAnalysis: false
-        spotBugsAnalysis: false
+- task: Gradle@3
+  inputs:
+    gradleWrapperFile: 'gradlew'
+    options: 'executeDebugTestsOnBrowserstack'
+    tasks: 'clean'
+    publishJUnitResults: true
+    testResultsFiles: '**/TEST-*.xml'
+    javaHomeOption: 'JDKVersion'
+    sonarQubeRunAnalysis: false
+    spotBugsAnalysis: false
   displayName: 'Run a multi-line script'
