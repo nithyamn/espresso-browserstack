@@ -50,5 +50,5 @@ dependencies {
 browserStackConfig {
     username = System.getenv("BROWSERSTACK_USERNAME")
     accessKey = System.getenv("BROWSERSTACK_ACCESS_KEY")
-    configFilePath = "/Users/nithyamani/Desktop/TechProjects/espresso-browserstack/app/browserstack.json"
+    configFilePath = "app/browserstack.json"
 }
